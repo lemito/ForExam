@@ -122,6 +122,8 @@ void Destroy(dequeue *q)
 }
 
 
+// Время: O(n)
+// память: O(1)
 void Reverse(dequeue *q) {
     if (!Empty(q)) {
         char *t = strdup(Front(q));

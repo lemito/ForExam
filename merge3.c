@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+// время: O(n)
+// память: O(1)
 int main(void)
 {
     FILE *first = fopen("first.txt", "r");

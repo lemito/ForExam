@@ -216,6 +216,8 @@ void PrintList(List *list)
     printf("]\n");
 }
 
+// время: O(n)
+// память: O(1)
 bool list_comparator(List* l, List* r){
     if (size(l) != size(r)) return false;
     Iterator lElem = First(l);
