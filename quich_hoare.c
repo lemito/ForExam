@@ -29,7 +29,7 @@ void sort(int arr[], int l, int r){
 }
 
 int main(){
-    int my[6] = {5, 8, 3, 4, 2, 7};
+    int my[7] = {1, 5, 8, 3, 4, 2, 7};
     int N = sizeof(my)/ sizeof(int);
     printf("%d\n", N);
     sort(my, 0, N-1);
