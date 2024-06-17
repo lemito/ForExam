@@ -6,27 +6,34 @@
 
 typedef bool Graph[MAX][MAX];
 
-DEF_LIST(path, int) // Определяем список List_path с элементами типа int
+DEF_LIST(path, int) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ List_path пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ int
 DEF_LIST(of_paths,
-         List_path *) // Определяем List_of_paths с элементами типа List_path
-DEF_QUEUE(of_paths, List_path *) // Определяем очередь Queue_of_paths с
-                                 // элементами типа List_path
-void print(List_path *l) {
+         List_path *)            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ List_of_paths пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ List_path
+DEF_QUEUE(of_paths, List_path *) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Queue_of_paths пїЅ
+                                 // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ List_path
+void print(List_path *l)
+{
   printf("PATH: [ ");
   for (List_path_iterator it = List_path_begin(l);
-       !List_path_equal(List_path_end(l), it); it = List_path_next(it)) {
+       !List_path_equal(List_path_end(l), it); it = List_path_next(it))
+  {
     printf("%d ", *List_path_fetch(l, it) + 1);
   }
   printf("]\n");
 }
 
-List_path_iterator find(List_path *list, int x) {
+List_path_iterator find(List_path *list, int x)
+{
   bool found = false;
   List_path_iterator first = List_path_begin(list), last = List_path_end(list);
-  while (!found && !List_path_equal(first, last)) {
-    if (*List_path_fetch(list, first) == x) {
+  while (!found && !List_path_equal(first, last))
+  {
+    if (*List_path_fetch(list, first) == x)
+    {
       found = true;
-    } else {
+    }
+    else
+    {
       first = List_path_next(first);
     }
   }
@@ -35,37 +42,42 @@ List_path_iterator find(List_path *list, int x) {
 
 List_of_paths *
 breadth_search(Graph G, int init,
-               int goal) // Возвращает список путей от init до goal
+               int goal) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ init пїЅпїЅ goal
 {
   List_of_paths *result = List_of_paths_create();
   List_path *p = List_path_create();
   List_path_insert(
       p, List_path_end(p),
-      init); /*Создаем список Пути и вставляем в него init - начало пути*/
+      init); /*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ init - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*/
   Queue_of_paths *q = Queue_of_paths_create();
   Queue_of_paths_push(q,
-                      List_path_copy(p)); /*Пушим текущий Путь в Очередь Путей*/
+                      List_path_copy(p)); /*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*/
 
-  while (!Queue_of_paths_empty(q)) /*Пока в Очереди есть незаконченные пути*/
+  while (!Queue_of_paths_empty(q)) /*пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*/
   {
-    p = *Queue_of_paths_front(q); /* Снимаем из Очереди верхний Путь */
+    p = *Queue_of_paths_front(q); /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
     Queue_of_paths_pop(q);
     int v =
         *List_path_fetch(p, List_path_prev(List_path_end(
-                                p))); /* Выталкиваем последний пункт в Пути */
-    if (v == goal) { /* Если последний пункт - конечный пункт, значит мы нашли
-                        полный Путь, и добавляем его в список путей*/
+                                p))); /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ */
+    if (v == goal)
+    { /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+         пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*/
       List_of_paths_insert(result, List_of_paths_end(result),
                            List_path_copy(p));
-    } else { /* Иначе смотрим в какие пункты можно попасть из данного*/
-      for (int i = 0; i < MAX; i++) {
-        if (G[v][i] && List_path_equal(find(p, i), List_path_end(p))) {
+    }
+    else
+    { /* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
+      for (int i = 0; i < MAX; i++)
+      {
+        if (G[v][i] && List_path_equal(find(p, i), List_path_end(p)))
+        {
           List_path_iterator it = List_path_insert(
-              p, List_path_end(p), i); /* Добавляем пункт в Путь */
+              p, List_path_end(p), i); /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ */
           Queue_of_paths_push(
-              q, List_path_copy(p)); /* Пушим копию Пути в конец Очереди*/
-          List_path_delete( p, it); /* Удаляем последний добавленный пункт, т.к. могут быть
-                              ещё пункты, в которые можно попасть из данного*/
+              q, List_path_copy(p)); /* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
+          List_path_delete(p, it);   /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                               пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
         }
       }
     }
@@ -73,19 +85,21 @@ breadth_search(Graph G, int init,
   return result;
 }
 
-int main() {
+int main()
+{
   Graph G = {{false, true, true, false, false},
              {false, false, false, true, false},
              {false, true, false, false, true},
              {false, false, true, false, true},
              {false, false, false, false,
-              false}}; /* Задаём граф через таблицу смежности*/
+              false}}; /* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 
   List_of_paths *result = breadth_search(G, 0, 4);
 
   for (List_of_paths_iterator pathIt = List_of_paths_begin(result);
        !List_of_paths_equal(pathIt, List_of_paths_end(result));
-       pathIt = List_of_paths_next(pathIt)) {
+       pathIt = List_of_paths_next(pathIt))
+  {
     print(*List_of_paths_fetch(result, pathIt));
   }
   return 0;
