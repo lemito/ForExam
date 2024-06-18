@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
-project(ForExam C)
+project(ForExam C CXX)
 
 set(CMAKE_C_STANDARD 23)
+set(CMAKE_CXX_STANDARD 17)
+
 
 add_executable(ForExam_merge3 merge3.c)
 add_executable(dequeue_reverse dequeue_reverse.c)
@@ -14,3 +16,4 @@ add_executable(bool bool.c
         test.h)
 add_executable(queue_on_stacks queue_on_stacks.c)
 add_executable(list_lambda list_lambda.cpp)
+add_executable(hoare quich_hoare.c)
