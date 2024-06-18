@@ -74,6 +74,11 @@ void QuickSortNR(int a[])
 /* Основной принцип: список границ требуемых разделений инвертируется
 в стеке */
      /* Элемент стека - граничная пара */
+     /**
+      * 1, 5, 8, 3, 4, 2, 7
+      * Изначально промежуток t: L = 0; R = n-1
+      * Затем pivot = 3 a[3]
+      */
     int n =7;
     stack st;/*ofT*/
     T t;
@@ -111,12 +116,13 @@ void QuickSortNR(int a[])
             }while(i<=j);
             if(i < R)
             {
-                t.L
-                        =
-                        i;
-                t.R
-                        =
-                        R;
+                for (int ix = 0; ix < 7; ++ix){
+                    printf("%d", a[ix]);
+                }
+                puts("\n");
+                // Идем по правой половине 
+                t.L=i;
+                t.R=R;
                 Push(&st , t);
             }
             R = j;
@@ -174,6 +180,7 @@ int main(){
     }
     printf("\n");
     QuickSortNR(neMy);
+    puts("res:");
     for (int i = 0; i < N; ++i){
         printf("%d", neMy[i]);
     }
